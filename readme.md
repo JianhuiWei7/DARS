@@ -40,7 +40,7 @@ An action can make local progress while relying on a prerequisite that is still 
 For graph potential $\Phi_G(t)$, DARS defines the shaping signal as
 
 $$
-\widetilde{r}_t = \rho\,\mathrm{clip}\left(\Phi_G(t)-\Phi_G(t-1),-\kappa,\kappa\right)
+\widetilde{r}_t = \rho\\mathrm{clip}\left(\Phi_G(t)-\Phi_G(t-1),-\kappa,\kappa\right)
 $$
 
 where $\rho$ scales rewards and $\kappa$ clips each potential change. Graph replay and numerical credit are deterministic conditional on the graph and event annotations. Repeating already established progress does not change the potential. Clipping and learner-specific transformations mean the deployed signal does not carry a general policy-invariance guarantee.
