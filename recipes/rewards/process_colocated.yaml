@@ -1,0 +1,15 @@
+# Per-step process scores from a judge that verl serves on the trainer's own GPUs.
+#   COLOCATED_JUDGE=Qwen/Qwen3-8B REWARD=recipes/rewards/process_colocated.yaml bash recipes/alfworld.sh
+type: process
+scale: 0.3
+combine: add
+judge:
+  backend:
+    type: openai_compat
+    base_url: verl://reward_model   # resolved at run time; the model name defaults to the served model
+    structured: json_object
+    reasoning_style: chat_template  # Qwen3-style thinking switch in the chat template
+  queue: {max_inflight: 256}        # a local server: batch widely
+  cache: {path: outputs/judge_cache.sqlite}
+reasoning: "off"
+decoding: {max_tokens: 1024, temperature: 0.0}

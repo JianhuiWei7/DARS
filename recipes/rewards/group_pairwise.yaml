@@ -1,0 +1,15 @@
+# Group-level: round-robin pairwise preferences within each task group; judged score = win rate.
+# Use with:  judgerl.group_reward_program_file=recipes/rewards/group_pairwise.yaml
+type: pairwise
+swap: true                        # judge each pair in both orders (position-bias control)
+max_pairs: 12                     # cap on pairs per group (8 rollouts = 28 pairs); 0 = all
+weight: 0.5
+scale: 10.0
+judge:
+  # Any LiteLLM model id works here (openai/gpt-4.1-mini, anthropic/..., a local server via
+  # {type: openai_compat, base_url: ...}, or {type: hf_server, model: <HF id>}); see docs/judge.md.
+  backend: {type: litellm, model: deepseek/deepseek-chat, api_key_env: DEEPSEEK_API_KEY}
+  queue: {max_inflight: 32}
+  budget_usd: 50
+  cache: {path: outputs/judge_cache.sqlite}
+  telemetry: {jsonl_path: outputs/judge_telemetry.jsonl}

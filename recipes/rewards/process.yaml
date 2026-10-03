@@ -1,0 +1,12 @@
+# Per-step process scores in {-1, 0, 1} from the judge, scaled and added to the environment rewards.
+type: process
+scale: 0.3
+combine: add                      # replace | add | redistribute (keeps each episode's discounted return)
+judge:
+  # Any LiteLLM model id works here (openai/gpt-4.1-mini, anthropic/..., a local server via
+  # {type: openai_compat, base_url: ...}, or {type: hf_server, model: <HF id>}); see docs/judge.md.
+  backend: {type: litellm, model: deepseek/deepseek-chat, api_key_env: DEEPSEEK_API_KEY}
+  queue: {max_inflight: 32}
+  budget_usd: 50
+  cache: {path: outputs/judge_cache.sqlite}
+  telemetry: {jsonl_path: outputs/judge_telemetry.jsonl}

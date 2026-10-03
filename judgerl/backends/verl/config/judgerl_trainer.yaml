@@ -1,0 +1,46 @@
+# Judge RL trainer config: verl's ppo_trainer.yaml plus the `judgerl` node.
+hydra:
+  searchpath:
+    - pkg://verl.trainer.config
+
+defaults:
+  - ppo_trainer
+  - _self_
+
+judgerl:
+  estimator: gigpo            # gigpo | grpo | rloo | package.module:function (custom) | null (verl's algorithm.adv_estimator)
+  invalid_penalty: 0.1        # subtracted from the episode score and the step return of invalid actions
+  gigpo:
+    step_weight: 1.0
+    mode: mean_std_norm       # mean_std_norm | mean_norm
+    similarity: null          # (0, 1): cluster text anchors by similarity instead of exact match
+  env: numberline             # environment of the default agent loop
+  env_kwargs: {}
+  max_steps: null             # cap on steps per episode (default: the environment's own max_steps)
+  env_pool_size: null         # env worker processes per agent-loop worker (non-thread-safe envs); null = episodes per batch / agent workers
+  env_timeout_s: 300.0        # per env call; a worker that exceeds it is replaced
+  reward_program: null        # judge-based reward program (see docs); null = environment rewards only
+  reward_program_file: null   # or a YAML file holding the reward program spec
+  reward_stage: rollout       # rollout: judge each episode as it finishes (overlaps generation)
+                              # trainer: judge after rollout in the trainer (needed for a judge colocated on
+                              #          the trainer's GPUs via reward.reward_model + verl://reward_model)
+  group_reward_program: null  # judge each task's rollouts together (listwise | pairwise | module:Class), in the trainer
+  group_reward_program_file: null
+  max_reward_failure_ratio: 0.5  # stop when more than this share of a step's episodes lost their judged reward
+  judge_val: false            # judge validation episodes too (needed when the env has no programmatic reward)
+  estimator_kwargs: {}        # keyword arguments for a custom estimator
+  mini_batch_rows: null       # PPO mini-batch size in step rows (e.g. 256 as in verl-agent); null = verl's sizing
+
+trainer:
+  use_v1: true
+  v1:
+    trainer_mode: judgerl_sync  # judgerl_sync | judgerl_colocate_async | judgerl_separate_async (verl's V1 modes)
+
+algorithm:
+  adv_estimator: grpo         # verl-side setting only; Judge RL's estimator above replaces the advantage step
+
+actor_rollout_ref:
+  rollout:
+    mode: async
+    agent:
+      default_agent_loop: judgerl_env

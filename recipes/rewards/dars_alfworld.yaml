@@ -1,0 +1,16 @@
+# DARS dependency-aware step credit (needs the DARS package: pip install dars; export DARS_ROOT=<DARS checkout>)
+type: dars
+config: ${DARS_ROOT}/configs/alfworld.yaml
+overrides: {}                     # e.g. {kappa: 0.3, rho: 1.0, lam: 0.5}
+judge:
+  # Any LiteLLM model id works here (openai/gpt-4.1-mini, anthropic/..., a local server via
+  # {type: openai_compat, base_url: ...}, or {type: hf_server, model: <HF id>}); see docs/judge.md.
+  backend: {type: litellm, model: deepseek/deepseek-chat, api_key_env: DEEPSEEK_API_KEY}
+  queue: {max_inflight: 32}
+  budget_usd: 50
+  cache: {path: outputs/judge_cache.sqlite}
+  telemetry: {jsonl_path: outputs/judge_telemetry.jsonl}
+request:
+  decoding: {max_tokens: 8192, temperature: 0.0}
+  reasoning: "off"
+  timeout_s: 240

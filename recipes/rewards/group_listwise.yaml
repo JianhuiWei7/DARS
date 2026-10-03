@@ -1,0 +1,15 @@
+# Group-level: one judge call sees all rollouts of a task and scores each in [0, 1] relative to the others.
+# Use with:  judgerl.group_reward_program_file=recipes/rewards/group_listwise.yaml
+type: listwise
+weight: 0.5                       # episode score = weight * scale * judged + (1 - weight) * environment score
+scale: 10.0
+max_obs_chars: 300                # observations are clipped; all rollouts share one prompt
+criteria: ""                      # optional extra criteria appended to the judge prompt
+judge:
+  # Any LiteLLM model id works here (openai/gpt-4.1-mini, anthropic/..., a local server via
+  # {type: openai_compat, base_url: ...}, or {type: hf_server, model: <HF id>}); see docs/judge.md.
+  backend: {type: litellm, model: deepseek/deepseek-chat, api_key_env: DEEPSEEK_API_KEY}
+  queue: {max_inflight: 32}
+  budget_usd: 50
+  cache: {path: outputs/judge_cache.sqlite}
+  telemetry: {jsonl_path: outputs/judge_telemetry.jsonl}

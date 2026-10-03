@@ -1,0 +1,4 @@
+# verl agent-loop registry entry for Judge RL. Settings come from the `judgerl` node of the trainer
+# config (the file ships with the package so every node of a multi-node run can read it).
+- name: judgerl_env
+  _target_: judgerl.backends.verl.agent_loop.EnvAgentLoop

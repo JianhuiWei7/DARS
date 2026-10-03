@@ -1,0 +1,16 @@
+# Episode score from a rubric judged in [0, 1] (times scale), mixed with the environment's score.
+type: outcome
+rubric: |
+  1. The final answer is correct.
+  2. Every tool call is necessary and its result is used.
+  3. The reasoning is consistent with the tool results.
+scale: 10.0
+weight: 0.5                       # 1.0 = judge only, 0.0 = environment only
+judge:
+  # Any LiteLLM model id works here (openai/gpt-4.1-mini, anthropic/..., a local server via
+  # {type: openai_compat, base_url: ...}, or {type: hf_server, model: <HF id>}); see docs/judge.md.
+  backend: {type: litellm, model: deepseek/deepseek-chat, api_key_env: DEEPSEEK_API_KEY}
+  queue: {max_inflight: 32}
+  budget_usd: 50
+  cache: {path: outputs/judge_cache.sqlite}
+  telemetry: {jsonl_path: outputs/judge_telemetry.jsonl}

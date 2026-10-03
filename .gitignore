@@ -1,0 +1,34 @@
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.DS_Store
+outputs/
+third_party/
+*.jsonl
+*.sqlite
+.ruff_cache/
+
+# Local environments and credentials
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+
+# Generated datasets, experiment artifacts and build outputs
+/data/
+/checkpoints/
+/wandb/
+/build/
+/dist/
+*.sqlite-wal
+*.sqlite-shm
+.coverage
+htmlcov/
+
+# Previous nested repository metadata (not part of the release)
+/judge-rl/
+
+# Local upload helper
+/upload_github.sh

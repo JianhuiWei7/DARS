@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "judgerl"
+version = "0.1.0.dev0"
+description = "Judge RL: agentic reinforcement learning with first-class LLM judges"
+readme = "readme.md"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.10"
+dependencies = [
+    "litellm>=1.40",
+    "numpy",
+    "pyyaml",
+    "pydantic>=2",
+]
+
+[project.optional-dependencies]
+train = ["verl==0.9.1", "TransferQueue>=0.1.8", "pandas", "pyarrow"]
+sglang = ["judgerl[train]", "sglang[all]==0.5.8"]
+vllm = ["judgerl[train]", "vllm>=0.11"]
+hf = ["transformers>=4.51", "torch"]
+dars = ["dars"]
+test = ["pytest", "pytest-asyncio", "requests", "omegaconf"]
+
+[project.scripts]
+judgerl-data = "judgerl.cli:data"
+judgerl-train = "judgerl.cli:train"
+judgerl-check = "judgerl.cli:check"
+
+[tool.setuptools.packages.find]
+include = ["judgerl*"]
+
+[tool.setuptools.package-data]
+judgerl = ["backends/verl/config/*.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"

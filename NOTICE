@@ -1,0 +1,10 @@
+Judge RL
+Licensed under the Apache License, Version 2.0.
+
+This product includes software derived from verl-agent (https://github.com/langfengQ/verl-agent),
+Copyright the verl-agent authors, licensed under the Apache License, Version 2.0:
+  - judgerl/envs/alfworld.py, judgerl/envs/webshop.py, judgerl/envs/search.py
+    (prompt templates, memory, observation formatting, action projection and rewards)
+  - judgerl/algos/advantages.py (GiGPO advantage computation)
+
+It builds on verl (https://pypi.org/project/verl/), licensed under the Apache License, Version 2.0.
