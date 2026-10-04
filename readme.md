@@ -5,7 +5,8 @@ Official code repository for **“Dependency-Aware Reward Shaping for Agentic Re
 **Ziyi Chen\*, Yan Zhang\*, Jianhui Wei\*, Daoan Zhang, Zuozhu Liu**  
 \* Equal contribution.
 
-[Paper](https://arxiv.org/abs/2610.01207)
+[![Paper](https://img.shields.io/badge/Paper-arXiv-B31B1B?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2610.01207)
+[![Website](https://img.shields.io/badge/Website-Project_Page-3E5DCC?style=for-the-badge&logo=githubpages&logoColor=white)](https://jianhuiwei7.github.io/DARS/)
 
 DARS assigns step-level credit by tracking **dependency-aware task progress**. It represents task requirements as a dependency graph, tracks which requirements are verified, broken or repaired, and converts changes in graph potential into signed rewards for agentic reinforcement learning.
 
